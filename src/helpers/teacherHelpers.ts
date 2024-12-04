@@ -4,28 +4,24 @@ export const getNextAvailableTeacher = (
   assignedTeacher: string,
   attendance: Record<string, string>
 ): string => {
-  if (assignedTeacher === '') {
-    // If no teacher is assigned, start from Rubeus Hagrid (index 2) to find the first available teacher
-    for (let i = 2; i < TEACHERS.length; i++) {
-      const teacher = TEACHERS[i]
-      if (attendance[teacher.name] === 'Present') {
-        return teacher.name
-      }
-    }
-  }
-
-  // If there's an assigned teacher, check their availability
+  // Find the index of the assigned teacher in the hierarchy
   const assignedTeacherIndex = TEACHERS.findIndex(
     (teacher) => teacher.name === assignedTeacher
   )
-  for (let i = assignedTeacherIndex; i >= 0; i--) {
+
+  // Start from the assigned teacher or the next teacher in the hierarchy
+  const startIndex = assignedTeacherIndex === -1 ? 2 : assignedTeacherIndex
+
+  // Check all teachers upwards in the hierarchy for availability
+  for (let i = startIndex; i >= 0; i--) {
     const teacher = TEACHERS[i]
     if (attendance[teacher.name] === 'Present') {
       return teacher.name
     }
   }
 
-  return 'Not Assigned' // If no teacher is found
+  // If no teacher is found, return "Not Assigned"
+  return 'Not Assigned'
 }
 
 export const updateStudentAssignments = (students: any, attendance: any) => {
