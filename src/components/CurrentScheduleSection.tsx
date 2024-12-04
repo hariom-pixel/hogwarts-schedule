@@ -1,6 +1,6 @@
 import React from 'react'
 import { STUDENTS } from '../constants/students'
-import { getNextAvailableTeacher } from '../helpers/teacherHelpers'
+import { updateStudentAssignments } from '../helpers/teacherHelpers'
 
 interface CurrentScheduleSectionProps {
   attendance: Record<string, string>
@@ -9,14 +9,7 @@ interface CurrentScheduleSectionProps {
 const CurrentScheduleSection: React.FC<CurrentScheduleSectionProps> = ({
   attendance,
 }) => {
-  const updatedSchedule = STUDENTS.map((student) => {
-    const teacher = getNextAvailableTeacher(student.assignedTeacher, attendance)
-
-    return {
-      ...student,
-      teacher,
-    }
-  })
+  const updatedSchedule = updateStudentAssignments(STUDENTS, attendance)
 
   return (
     <div>
@@ -30,11 +23,11 @@ const CurrentScheduleSection: React.FC<CurrentScheduleSectionProps> = ({
           </tr>
         </thead>
         <tbody>
-          {updatedSchedule.map((student, index) => (
+          {updatedSchedule.map((student: any, index: any) => (
             <tr key={index}>
               <td>{student.name}</td>
               <td>{student.subject}</td>
-              <td>{student.teacher}</td>
+              <td>{student.assignedTeacher}</td>
             </tr>
           ))}
         </tbody>
