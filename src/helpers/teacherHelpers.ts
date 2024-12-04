@@ -1,28 +1,45 @@
 import { TEACHERS } from '../constants/teachers'
 import { Student, AttendanceRecord } from '../type'
 
-export const getNextAvailableTeacher = (
+const getNextAvailableTeacher = (
   assignedTeacher: string,
-  attendance: AttendanceRecord
+  attendance: Record<string, string>
 ): string => {
-  // Find the index of the assigned teacher in the hierarchy
+  // If the student is unassigned, start from the standby teacher (Rubeus Hagrid)
+  if (assignedTeacher === '') {
+    for (let i = 2; i >= 0; i--) {
+      const teacher = TEACHERS[i]
+      if (attendance[teacher.name] === 'Present') {
+        return teacher.name
+      }
+    }
+    return 'Not Assigned' // No teacher available in the hierarchy
+  }
+
+  // If the assigned teacher is Horace or Severus and absent, prioritize Rubeus Hagrid
+  if (
+    (assignedTeacher === 'Horace Slughorn' ||
+      assignedTeacher === 'Severus Snape') &&
+    attendance[assignedTeacher] === 'Absent'
+  ) {
+    if (attendance['Rubeus Hagrid'] === 'Present') {
+      return 'Rubeus Hagrid'
+    }
+  }
+
+  // Start searching upwards in the hierarchy for an available teacher
   const assignedTeacherIndex = TEACHERS.findIndex(
     (teacher) => teacher.name === assignedTeacher
   )
 
-  // Start from the assigned teacher or the next teacher in the hierarchy
-  const startIndex = assignedTeacherIndex === -1 ? 2 : assignedTeacherIndex
-
-  // Check all teachers upwards in the hierarchy for availability
-  for (let i = startIndex; i >= 0; i--) {
+  for (let i = assignedTeacherIndex; i >= 0; i--) {
     const teacher = TEACHERS[i]
     if (attendance[teacher.name] === 'Present') {
       return teacher.name
     }
   }
 
-  // If no teacher is found, return "Not Assigned"
-  return 'Not Assigned'
+  return 'Not Assigned' // No teacher available in the hierarchy
 }
 
 export const updateStudentAssignments = (
