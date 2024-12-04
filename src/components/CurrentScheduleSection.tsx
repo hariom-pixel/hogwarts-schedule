@@ -10,14 +10,11 @@ const CurrentScheduleSection: React.FC<CurrentScheduleSectionProps> = ({
   attendance,
 }) => {
   const updatedSchedule = STUDENTS.map((student) => {
-    // If the student doesn't have an assigned teacher, assign the next available teacher
-    const assignedTeacher =
-      student.assignedTeacher ||
-      getNextAvailableTeacher(student.assignedTeacher, attendance)
+    const teacher = getNextAvailableTeacher(student.assignedTeacher, attendance)
 
     return {
       ...student,
-      assignedTeacher: assignedTeacher,
+      teacher,
     }
   })
 
@@ -37,7 +34,7 @@ const CurrentScheduleSection: React.FC<CurrentScheduleSectionProps> = ({
             <tr key={index}>
               <td>{student.name}</td>
               <td>{student.subject}</td>
-              <td>{student.assignedTeacher}</td>
+              <td>{student.teacher}</td>
             </tr>
           ))}
         </tbody>
