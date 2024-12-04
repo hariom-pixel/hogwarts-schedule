@@ -1,5 +1,3 @@
-// src/components/AttendanceSection.tsx
-
 import React from 'react'
 import { TEACHERS } from '../constants/teachers'
 

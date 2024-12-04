@@ -1,4 +1,6 @@
-export const STUDENTS = [
+import { Student } from '../type'
+
+export const STUDENTS: Student[] = [
   {
     name: 'Harry Potter',
     subject: 'Potions Master',

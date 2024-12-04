@@ -1,9 +1,10 @@
 import React from 'react'
 import { STUDENTS } from '../constants/students'
 import { updateStudentAssignments } from '../helpers/teacherHelpers'
+import { AttendanceRecord } from '../type'
 
 interface CurrentScheduleSectionProps {
-  attendance: Record<string, string>
+  attendance: AttendanceRecord
 }
 
 const CurrentScheduleSection: React.FC<CurrentScheduleSectionProps> = ({

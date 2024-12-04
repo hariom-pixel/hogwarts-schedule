@@ -1,4 +1,6 @@
-export const TEACHERS = [
+import { Teacher, AttendanceRecord } from '../type'
+
+export const TEACHERS: Teacher[] = [
   { name: 'Professor Dumbledore', hierarchyLevel: 0 },
   { name: 'Minerva McGonagall', hierarchyLevel: 1 },
   { name: 'Rubeus Hagrid', hierarchyLevel: 2 },
@@ -6,7 +8,7 @@ export const TEACHERS = [
   { name: 'Severus Snape', hierarchyLevel: 4 },
 ]
 
-export const TEACHER_ATTENDANCE = {
+export const TEACHER_ATTENDANCE: AttendanceRecord = {
   'Professor Dumbledore': 'Present',
   'Minerva McGonagall': 'Present',
   'Rubeus Hagrid': 'Present',

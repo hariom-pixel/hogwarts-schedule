@@ -1,8 +1,9 @@
 import { TEACHERS } from '../constants/teachers'
+import { Student, AttendanceRecord } from '../type'
 
 export const getNextAvailableTeacher = (
   assignedTeacher: string,
-  attendance: Record<string, string>
+  attendance: AttendanceRecord
 ): string => {
   // Find the index of the assigned teacher in the hierarchy
   const assignedTeacherIndex = TEACHERS.findIndex(
@@ -24,8 +25,11 @@ export const getNextAvailableTeacher = (
   return 'Not Assigned'
 }
 
-export const updateStudentAssignments = (students: any, attendance: any) => {
-  return students.map((student: any) => {
+export const updateStudentAssignments = (
+  students: Student[],
+  attendance: AttendanceRecord
+) => {
+  return students.map((student: Student) => {
     // If the student is assigned a teacher that is absent, reassign them
     if (attendance[student.assignedTeacher] === 'Absent') {
       const teacher = getNextAvailableTeacher(
